@@ -14,15 +14,14 @@ public class TimelineBinder : MonoBehaviour
     {
         foreach (var track in director.playableAsset.outputs)
         {
-            if (track.streamName.Contains("ghost") && ghost != null)
-                director.SetGenericBinding(track.sourceObject, ghost.GetComponent<Animator>());
-            else if (track.streamName.Contains("chansung") && chansung != null)
+            if (track.streamName.Contains("chansung"))
                 director.SetGenericBinding(track.sourceObject, chansung.GetComponent<Animator>());
-            else if (track.streamName.Contains("manwol") && manwol != null)
+            else if (track.streamName.Contains("ghost"))
+                director.SetGenericBinding(track.sourceObject, ghost.GetComponent<Animator>());
+            else if (track.streamName.Contains("manwol"))
                 director.SetGenericBinding(track.sourceObject, manwol.GetComponent<Animator>());
         }
     }
-
 
     public void PlayTimeline()
     {
