@@ -8,7 +8,9 @@ public class DragAndDropManager : MonoBehaviour, IBeginDragHandler, IDragHandler
 {
     public GameObject prefabToSpawn;         // 드롭할 프리팹
     public GameObject dragPreviewPrefab;     // 드래그 중 따라다닐 프리뷰 오브젝트
-    public string prefabTag;
+    public string prefabTag;                 // ex: "ghost", "chansung", "manwol"
+    public Transform targetPosition;         // 단일 타겟 포지션
+    public float maxOffset = 0.3f;           // 위치 허용 오차
 
     private GameObject previewInstance;
     private Camera arCamera;
@@ -23,7 +25,6 @@ public class DragAndDropManager : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // 프리뷰 생성
         previewInstance = Instantiate(dragPreviewPrefab);
         SetTransparency(previewInstance, 0.5f);
     }
@@ -43,31 +44,52 @@ public class DragAndDropManager : MonoBehaviour, IBeginDragHandler, IDragHandler
     {
         Vector2 screenPos = eventData.position;
 
-        // Plane 위인지 확인
         if (raycastManager.Raycast(screenPos, hits, TrackableType.PlaneWithinPolygon))
         {
             Pose hitPose = hits[0].pose;
 
-            // 기존 오브젝트 있으면 제거
-            GameObject existing = GameObject.FindGameObjectWithTag(prefabTag);
-            if (existing != null)
+            if (targetPosition == null)
             {
-                Destroy(existing);
-                Debug.Log($"기존 '{prefabTag}' 오브젝트 삭제 후 새로 배치");
+                Debug.LogWarning("타겟 Transform이 비어 있습니다.");
+                Destroy(previewInstance);
+                return;
             }
 
-            // 새 프리팹 배치
-            GameObject obj = Instantiate(prefabToSpawn, hitPose.position, hitPose.rotation);
+            // 위치 허용 오차 확인
+            if (Vector3.Distance(hitPose.position, targetPosition.position) > maxOffset)
+            {
+                Debug.LogWarning("타겟 위치에서 너무 멉니다. 배치 취소됨.");
+                Destroy(previewInstance);
+                return;
+            }
+
+            // 기존 오브젝트 제거
+            GameObject existing = GameObject.FindGameObjectWithTag(prefabTag);
+            if (existing != null)
+                Destroy(existing);
+
+            // 새 오브젝트 배치 (타겟 위치 및 회전으로 정확히 배치)
+            GameObject obj = Instantiate(prefabToSpawn, targetPosition.position, targetPosition.rotation);
             obj.tag = prefabTag;
+
+            // 타겟 오브젝트 제거
+           targetPosition.gameObject.SetActive(false);
+
+            // 타임라인 바인딩
+            TimelineBinder binder = FindObjectOfType<TimelineBinder>();
+            if (binder != null)
+            {
+                if (prefabTag == "chansung") binder.chansung = obj;
+                else if (prefabTag == "ghost") binder.ghost = obj;
+                else if (prefabTag == "manwol") binder.manwol = obj;
+
+                binder.BindAllCharacters();
+            }
         }
 
-        // 프리뷰 제거
         if (previewInstance != null)
-        {
             Destroy(previewInstance);
-        }
     }
-
 
     void SetTransparency(GameObject obj, float alpha)
     {
@@ -83,4 +105,3 @@ public class DragAndDropManager : MonoBehaviour, IBeginDragHandler, IDragHandler
         }
     }
 }
-
