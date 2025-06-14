@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "2.0.7",
     "com.unity.collab-proxy": "2.8.2",
     "com.unity.ide.rider": "3.0.35",
@@ -11,7 +12,7 @@
     "com.unity.timeline": "1.8.7",
     "com.unity.ugui": "2.0.0",
     "com.unity.visualscripting": "1.9.7",
-    "com.unity.xr-content.xr-sim-environments": "file:../ContentPackages\\com.unity.xr-content.xr-sim-environments-2.0.1.tgz",
+    "com.unity.xr-content.xr-sim-environments": "file:../ContentPackages/com.unity.xr-content.xr-sim-environments-2.0.1.tgz",
     "com.unity.xr.arfoundation": "6.0.6",
     "com.unity.xr.arkit": "6.0.6",
     "com.unity.xr.management": "4.5.1",
