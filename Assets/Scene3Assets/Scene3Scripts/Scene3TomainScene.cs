@@ -5,6 +5,6 @@ public class Scene3TomainScene : MonoBehaviour
 {
     public void LoadMainScene()
     {
-        SceneManager.LoadScene("mainScene");
+        SceneManager.LoadScene("Scene0");
     }
 }

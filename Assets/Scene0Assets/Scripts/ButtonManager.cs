@@ -66,7 +66,7 @@ public class ButtonManager : MonoBehaviour
     IEnumerator ShowSpeechBubble()
     {
         speechBubble.SetActive(true);
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(8f);
         speechBubble.SetActive(false);
     }
 }
