@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class ARDirectionManager : MonoBehaviour
 {
@@ -63,6 +64,18 @@ public class ARDirectionManager : MonoBehaviour
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 Debug.Log("Selected: " + hit.transform.name);
+                if (hit.transform == frontInstance.transform)
+                {
+                    SceneManager.LoadScene("Scene2");
+                }
+                else if (hit.transform == leftInstance.transform)
+                {
+                    SceneManager.LoadScene("Scene1");
+                }
+                else if (hit.transform == rightInstance.transform)
+                {
+                    SceneManager.LoadScene("Scene3");
+                }
             }
         }
     }
