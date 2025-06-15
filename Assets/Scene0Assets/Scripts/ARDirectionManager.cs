@@ -70,7 +70,7 @@ public class ARDirectionManager : MonoBehaviour
                 }
                 else if (hit.transform == leftInstance.transform)
                 {
-                    SceneManager.LoadScene("Scene1");
+                    SceneManager.LoadScene("SG0");
                 }
                 else if (hit.transform == rightInstance.transform)
                 {
