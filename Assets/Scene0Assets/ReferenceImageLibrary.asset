@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
+  m_Name: ReferenceImageLibrary
+  m_EditorClassIdentifier: 
+  m_GuidLow: 5740740969438025317
+  m_GuidHigh: 12837223567332724143
+  m_DataStore:
+    m_Storage: []
+  m_Images:
+  - m_SerializedGuid:
+      m_GuidLow: 5363648815408959149
+      m_GuidHigh: 2708696467344302782
+    m_SerializedTextureGuid:
+      m_GuidLow: 8394292010437260707
+      m_GuidHigh: 13958812425981678393
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: SecretlyGreatly
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5007935258714595641
+      m_GuidHigh: 9841314550106781078
+    m_SerializedTextureGuid:
+      m_GuidLow: 11842561555138787005
+      m_GuidHigh: 1540117284436273066
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: twentyMovPosters
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5245497361671309671
+      m_GuidHigh: 1174435677168825772
+    m_SerializedTextureGuid:
+      m_GuidLow: 16465066045313155147
+      m_GuidHigh: 2800997571277737739
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: HotelDelluna
+    m_Texture: {fileID: 0}
