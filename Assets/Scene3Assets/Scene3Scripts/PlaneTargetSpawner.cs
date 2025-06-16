@@ -6,7 +6,9 @@ using System.Collections.Generic;
 public class PlaneTargetSpawner : MonoBehaviour
 {
     public ARPlaneManager planeManager;
-    public Transform[] targetObjects; // 하이어라키에 있는 캡슐들
+    public Transform[] targetObjects;               // 타겟 오브젝트 (비활성화 상태)
+    public GameObject uiScanPrompt;                 // "바닥을 더 인식해주세요" UI
+    public GameObject uiPlacementPrompt;            // "캐릭터를 배치하세요" UI
 
     private bool isPlaced = false;
 
@@ -20,6 +22,19 @@ public class PlaneTargetSpawner : MonoBehaviour
         planeManager.planesChanged -= OnPlanesChanged;
     }
 
+    void Start()
+    {
+        // 처음엔 타겟과 배치 UI 꺼두고, 스캔 UI만 켜기
+        foreach (var obj in targetObjects)
+            obj.gameObject.SetActive(false);
+
+        if (uiScanPrompt != null)
+            uiScanPrompt.SetActive(true);
+
+        if (uiPlacementPrompt != null)
+            uiPlacementPrompt.SetActive(false);
+    }
+
     void OnPlanesChanged(ARPlanesChangedEventArgs args)
     {
         if (isPlaced) return;
@@ -28,8 +43,7 @@ public class PlaneTargetSpawner : MonoBehaviour
         {
             ARPlane detectedPlane = args.added[0];
 
-            // 60cm x 20cm 이상일 때만 배치
-            if (detectedPlane.size.x >= 0.6f && detectedPlane.size.y >= 0.2f)
+            if (detectedPlane.size.x >= 0.4f && detectedPlane.size.y >= 0.2f)
             {
                 float planeY = detectedPlane.center.y;
 
@@ -37,18 +51,23 @@ public class PlaneTargetSpawner : MonoBehaviour
                 {
                     Vector3 oldPos = targetObjects[i].position;
                     targetObjects[i].position = new Vector3(oldPos.x, planeY, oldPos.z);
-
-                    Debug.Log($"[Target {i}] Plane Y: {planeY} → 위치 적용됨: {targetObjects[i].position}");
+                    targetObjects[i].gameObject.SetActive(true);
                 }
 
-                Debug.Log(" Plane 충분히 큼! 배치 완료.");
+                // UI 전환
+                if (uiScanPrompt != null)
+                    uiScanPrompt.SetActive(false);
+
+                if (uiPlacementPrompt != null)
+                    uiPlacementPrompt.SetActive(true);
+
+                Debug.Log(" 충분한 Plane 확보됨 → 타겟 & 배치 UI 활성화");
                 isPlaced = true;
             }
             else
             {
-                Debug.LogWarning($"Plane 너무 작음! 현재 크기: {detectedPlane.size.x:F2} x {detectedPlane.size.y:F2}");
+                Debug.Log($" Plane 너무 작음: {detectedPlane.size.x:F2} x {detectedPlane.size.y:F2}");
             }
         }
     }
-
 }
